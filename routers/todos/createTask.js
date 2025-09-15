@@ -7,7 +7,7 @@ function createTask(Task) {
 
       const task = new Task({
         title: req.body.title,
-        description: req.body.description, //fix разобраться с необязательными полями
+        description: req.body.description,
         completed: req.body.completed,
         createdAt: req.body.createdAt,
       });

@@ -7,6 +7,7 @@ const cors = require("cors");
 const config = require("../config.json");
 
 async function startServer() {
+  // это должно быть здесь? или вынесено в отдельный файл?
   try {
     await mongoose.connect(config.mongodb.uri);
     app.listen(config.port);
