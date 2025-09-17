@@ -3,12 +3,14 @@ function findAllTasks(Task) {
   return async function (req, res, next) {
     try {
       const complete = req.query.complete;
-      const sorted = req.query.sort;
+      const sorted = req.query.sorted;
+      const limit = req.query.limit || 20;
+      const offset = req.query.offset || 0;
       const filtr = complete === undefined ? {} : { completed: complete };
-      let tasks = await Task.find(filtr); // пагинацию сделать
-      tasks = sorted
-        ? tasks.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // сделать сортировку на стороне бд
-        : tasks;
+      let tasks = await Task.find(filtr)
+        .skip(offset)
+        .limit(limit)
+        .sort(sorted ? { createdAt: -1 } : {});
       res.json(tasks);
     } catch (err) {
       next(err);
