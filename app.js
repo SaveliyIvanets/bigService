@@ -7,11 +7,10 @@ const cors = require("cors");
 const config = require("./config.json");
 
 async function startServer() {
-  // это должно быть здесь? или вынесено в отдельный файл?
   try {
     await mongoose.connect(config.mongodb.uri);
     app.listen(config.port);
-    console.log("Сервер ожидает подключения...");
+    console.log(`Сервер запущен на ${config.port} порту`);
   } catch (err) {
     return console.log(err);
   }
