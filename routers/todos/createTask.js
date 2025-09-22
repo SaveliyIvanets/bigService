@@ -1,4 +1,5 @@
 const Task = require("../../models/tasksSchema");
+const config = require("../../config.json");
 async function createTask(req, res, next) {
   try {
     const error = new Error();
@@ -9,7 +10,7 @@ async function createTask(req, res, next) {
       return next(error);
     }
     const task = new Task({
-      _id: req.body._id, // SECRET
+      _id: config.tests ? req.body._id : undefined,
       title: req.body.title,
       description: req.body.description,
       completed: req.body.completed || false,
