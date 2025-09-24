@@ -2,7 +2,7 @@ const request = require("supertest");
 const mongoose = require("mongoose");
 const app = require("../../app");
 const config = require("../../config.json");
-
+const id = "68d28f8e403bcc90017daa67";
 before(async function () {
   try {
     await mongoose.connect(config.mongodb.test_uri);
@@ -18,7 +18,7 @@ after(async function () {
 it("create task", function (done) {
   const data = {
     title: "Test !!!",
-    _id: new mongoose.Types.ObjectId("507f1f77bcf86cd799439011"),
+    _id: id,
   };
 
   request(app)
@@ -27,6 +27,7 @@ it("create task", function (done) {
     .send(data)
     .expect(200)
     .expect(function (res) {
+      console.log(res.body);
       if (res.body.status) {
         throw new Error(res.body.message);
       }
@@ -36,10 +37,11 @@ it("create task", function (done) {
 
 it("should get todo by id", function (done) {
   request(app)
-    .get("/api/todos/507f1f77bcf86cd799439011")
+    .get(`/api/todos/${id}`)
     .expect(200)
     .expect((res) => {
-      if (res.body._id !== "507f1f77bcf86cd799439011") {
+      console.log(res.body._id + " " + res.body.tittle);
+      if (res.body._id !== id) {
         throw new Error("не тот айди");
       }
       if (res.body.title !== "Test !!!") {
@@ -66,7 +68,7 @@ it("get all tasks", function (done) {
 
 it("patch update", function (done) {
   request(app)
-    .patch("/api/todos/507f1f77bcf86cd799439011")
+    .patch(`/api/todos/${id}`)
     .send({ title: "new title" })
     .expect(function (res) {
       if (res.body.status) {
@@ -78,10 +80,10 @@ it("patch update", function (done) {
 });
 it("putch cheking", function (done) {
   request(app)
-    .get("/api/todos/507f1f77bcf86cd799439011")
+    .get(`/api/todos/${id}`)
     .expect(200)
     .expect((res) => {
-      if (res.body._id !== "507f1f77bcf86cd799439011") {
+      if (res.body._id !== id) {
         throw new Error("не тот айди");
       }
       if (res.body.title !== "new title") {
@@ -96,7 +98,7 @@ it("putch cheking", function (done) {
 });
 it("delete task", function (done) {
   request(app)
-    .delete("/api/todos/507f1f77bcf86cd799439011")
+    .delete(`/api/todos/${id}`)
     .expect(function (res) {
       if (res.body.status) {
         throw new Error(res.body.message);

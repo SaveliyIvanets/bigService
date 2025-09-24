@@ -16,7 +16,6 @@ async function updateTask(req, res, next) {
       error.status = 400;
       return next(error);
     }
-    console.log(req.body.completed);
     const updateData = {
       title: req.body.title,
       description: req.body.description,
