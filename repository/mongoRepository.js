@@ -13,7 +13,7 @@ class mongoRepository extends repository {
       error.status = 400;
       throw error;
     }
-    const record = await model.findById(id);
+    const record = await this.model.findById(id);
     if (!record) {
       error.name = "NotFoundError";
       error.message = "Record not found";
@@ -23,8 +23,7 @@ class mongoRepository extends repository {
     return record;
   }
   async create(record) {
-    const record = new Task(record);
-    await task.save();
+    await record.save();
   }
   async delete(id) {
     const error = new Error();
@@ -34,7 +33,7 @@ class mongoRepository extends repository {
       error.status = 400;
       throw error;
     }
-    const deletedRecord = await model.findByIdAndDelete(id);
+    const deletedRecord = await this.model.findByIdAndDelete(id);
     if (!deletedRecord) {
       error.name = "NotFoundError";
       error.message = "Record not found";
@@ -50,11 +49,11 @@ class mongoRepository extends repository {
       error.status = 400;
       throw error;
     }
-    const record = await model.findByIdAndUpdate(id, record, {
+    const newRecord = await this.model.findByIdAndUpdate(id, record, {
       new: true,
       runValidators: true,
     });
-    if (!task) {
+    if (!newRecord) {
       error.name = "NotFoundError";
       error.message = "Record not found";
       error.status = 404;
@@ -62,10 +61,12 @@ class mongoRepository extends repository {
     }
   }
   async findAll(filtr, limit, offset, sortValue, sorted) {
-    const tasks = await Task.find(filtr)
+    const records = await this.model
+      .find(filtr)
       .skip(offset)
       .limit(limit)
       .sort(sorted ? { [sortValue]: -1 } : {});
-    return tasks;
+    return records;
   }
 }
+module.exports = mongoRepository;

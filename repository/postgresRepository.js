@@ -1,6 +1,7 @@
-const userRepository = require("./repository");
-class postgresRepository extends userRepository {
+const repository = require("./repository");
+class postgresRepository extends repository {
   constructor() {
     super();
   }
 }
+module.exports = postgresRepository;

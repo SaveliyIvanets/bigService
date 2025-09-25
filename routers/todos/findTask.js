@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 const Task = require("../../models/tasksSchema");
+const config = require("../../config.json");
+const fabricRepository = require("../../repository/fabricRepository");
+const repository = fabricRepository.giveRepository(config.databaseEngine, Task);
 async function findAllTasks(req, res, next) {
   try {
     const complete = req.query.complete;
@@ -7,10 +10,13 @@ async function findAllTasks(req, res, next) {
     const limit = req.query.limit || 20;
     const offset = req.query.offset || 0;
     const filtr = complete === undefined ? {} : { completed: complete };
-    const tasks = await Task.find(filtr)
-      .skip(offset)
-      .limit(limit)
-      .sort(sorted ? { createdAt: -1 } : {});
+    const tasks = await repository.findAll(
+      filtr,
+      limit,
+      offset,
+      "createdAt",
+      sorted
+    );
     res.json(tasks);
   } catch (err) {
     next(err);
@@ -27,13 +33,7 @@ async function findTaskById(req, res, next) {
       error.status = 400;
       return next(error);
     }
-    const task = await Task.findById(id);
-    if (!task) {
-      error.name = "NotFoundError";
-      error.message = "Task not found";
-      error.status = 404;
-      return next(error);
-    }
+    const task = await repository.findById(id);
     res.json(task);
   } catch (err) {
     next(err);

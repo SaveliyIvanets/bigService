@@ -1,4 +1,4 @@
-class userRepository {
+class Repository {
   async findById(id) {
     throw new Error("Method not implemented");
   }
@@ -15,4 +15,4 @@ class userRepository {
     throw new Error("Method not implemented");
   }
 }
-module.exports = UserRepository;
+module.exports = Repository;

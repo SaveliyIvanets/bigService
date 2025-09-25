@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 const Task = require("../../models/tasksSchema");
+const config = require("../../config.json");
+const fabricRepository = require("../../repository/fabricRepository");
+const repository = fabricRepository.giveRepository(config.databaseEngine, Task);
 async function updateTask(req, res, next) {
   try {
     const error = new Error();
@@ -10,12 +13,6 @@ async function updateTask(req, res, next) {
       return next(error);
     }
     const id = req.params.id;
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      error.name = "UpdateError";
-      error.message = "Invalid task ID";
-      error.status = 400;
-      return next(error);
-    }
     const updateData = {
       title: req.body.title,
       description: req.body.description,
@@ -23,16 +20,8 @@ async function updateTask(req, res, next) {
       createdAt: req.body.createdAt,
     };
 
-    const task = await Task.findByIdAndUpdate(id, updateData, {
-      new: true,
-      runValidators: true,
-    });
-    if (!task) {
-      error.name = "NotFoundError";
-      error.message = "Task not found";
-      error.status = 404;
-      return next(error);
-    }
+    await repository.update(id, updateData);
+
     res.send("Update complete");
   } catch (error) {
     next(error);

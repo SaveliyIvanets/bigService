@@ -1,5 +1,7 @@
 const Task = require("../../models/tasksSchema");
 const config = require("../../config.json");
+const fabricRepository = require("../../repository/fabricRepository");
+const repository = fabricRepository.giveRepository(config.databaseEngine, Task);
 async function createTask(req, res, next) {
   try {
     const error = new Error();
@@ -16,7 +18,7 @@ async function createTask(req, res, next) {
       completed: req.body.completed || false,
       createdAt: Date.now(),
     });
-    await task.save();
+    await repository.create(task);
     res.send("Save complete!");
   } catch (error) {
     next(error);
