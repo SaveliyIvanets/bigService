@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const createTask = require("./createTask");
-const Task = require("../../models/tasksSchema");
 const { updateTask } = require("./updateTask");
 const deleteTask = require("./deleteTask");
 const { findAllTasks, findTaskById } = require("./findTask");

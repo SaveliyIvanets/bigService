@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
-const Task = require("../../models/tasksSchema");
 const config = require("../../config.json");
+const fabricModel = require("../../models/fabricModel");
+const Task = fabricModel(config.databaseEngine);
 const fabricRepository = require("../../repository/fabricRepository");
 const repository = fabricRepository.giveRepository(config.databaseEngine, Task);
 async function updateTask(req, res, next) {

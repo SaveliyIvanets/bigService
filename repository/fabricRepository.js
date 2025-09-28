@@ -10,10 +10,7 @@ class fabricRepository {
       lite: new liteRepository(model),
     };
     const repository = repositories[databaseEngine];
-    if (!repository) {
-      throw new Error(`Unsupported database type: ${databaseEngine}`);
-    }
-    return repository;
+    return repositories[databaseEngine] || null;
   }
 }
 module.exports = fabricRepository;
