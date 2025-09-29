@@ -7,9 +7,14 @@ const dbConnections = {
 };
 async function fabricConnection(databaseEngine) {
   const connect = dbConnections[databaseEngine];
+  if (databaseEngine !== "mongo") {
+    // костыль
+    await sequelize.sync({ alter: true });
+  }
   if (!connect) {
     throw new Error(`Unsupported DB: ${databaseEngine}`);
   }
   await connect;
+  console.log("DB is running");
 }
 module.exports = fabricConnection;

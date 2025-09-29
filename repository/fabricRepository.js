@@ -9,7 +9,7 @@ class fabricRepository {
       postgres: new postgresRepository(model),
       lite: new liteRepository(model),
     };
-    const repository = repositories[databaseEngine];
+
     return repositories[databaseEngine] || null;
   }
 }

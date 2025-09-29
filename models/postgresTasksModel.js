@@ -1,0 +1,22 @@
+const sequelize = require("../dbConnection/postgresDb");
+const Sequelize = require("sequelize");
+const Task = sequelize.define("tasks", {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+    allowNull: false,
+  },
+  title: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  description: {
+    type: Sequelize.STRING,
+  },
+  completed: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+  },
+});
+module.exports = Task;
