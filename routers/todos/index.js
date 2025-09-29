@@ -4,7 +4,7 @@ const createTask = require("./createTask");
 const { updateTask } = require("./updateTask");
 const deleteTask = require("./deleteTask");
 const { findAllTasks, findTaskById } = require("./findTask");
-const errorCatcher = require("../../middleware/todos/errorMiddleware");
+const errorCatcher = require("../../middleware/todosErrorMiddleware");
 router.post("/", createTask);
 router.put("/:id", updateTask);
 router.patch("/:id", updateTask);

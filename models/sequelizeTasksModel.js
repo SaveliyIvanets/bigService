@@ -3,7 +3,8 @@ const dbs = {
   lite: require("../dbConnection/liteDb"),
 };
 const config = require("../config.json");
-const sequelize = dbs[config.databaseEngine];
+const sequelize =
+  dbs[config.databaseEngine] || require("../dbConnection/postgresDb");
 const Sequelize = require("sequelize");
 const Task = sequelize.define(
   "tasks",

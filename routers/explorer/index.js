@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const traversalCatcher = require("../../middleware/explorer/traversalCatcher");
+const traversalCatcher = require("../../middleware/traversalCatcher");
 const getContent = require("./getContent");
-const errorMidleware = require("../../middleware/explorer/errorMiddleware");
+const errorMidleware = require("../../middleware/explorerErrorMiddleware");
 
 router.use("/:operation/:name(*)", traversalCatcher);
 router.get("/:operation/:name(*)", getContent.getContent);
