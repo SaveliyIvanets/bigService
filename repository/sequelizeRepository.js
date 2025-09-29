@@ -1,5 +1,5 @@
 const repository = require("./repository");
-class postgresRepository extends repository {
+class sequelizeRepository extends repository {
   constructor(model) {
     super();
     this.model = model;
@@ -56,4 +56,4 @@ class postgresRepository extends repository {
     return records;
   }
 }
-module.exports = postgresRepository;
+module.exports = sequelizeRepository;

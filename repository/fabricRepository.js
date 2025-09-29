@@ -1,15 +1,13 @@
 const mongoRepository = require("./mongoRepository");
-const postgresRepository = require("./postgresRepository");
-const liteRepository = require("./liteRepository");
+const sequelizeRepository = require("./sequelizeRepository");
 
 class fabricRepository {
   static giveRepository(databaseEngine, model) {
     const repositories = {
       mongo: new mongoRepository(model),
-      postgres: new postgresRepository(model),
-      lite: new liteRepository(model),
+      postgres: new sequelizeRepository(model),
+      lite: new sequelizeRepository(model),
     };
-
     return repositories[databaseEngine] || null;
   }
 }

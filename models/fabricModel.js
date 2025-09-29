@@ -1,7 +1,7 @@
 const models = {
   mongo: require("./mongoTasksModel"),
-  postgres: require("./postgresTasksModel"),
-  lite: require("./liteTasksModel"),
+  postgres: require("./sequelizeTasksModel"),
+  lite: require("./sequelizeTasksModel"),
 };
 function fabricModel(databaseEngine) {
   return models[databaseEngine] || null;

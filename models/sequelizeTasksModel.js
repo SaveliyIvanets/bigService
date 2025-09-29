@@ -1,4 +1,9 @@
-const sequelize = require("../dbConnection/postgresDb");
+const dbs = {
+  postgres: require("../dbConnection/postgresDb"),
+  lite: require("../dbConnection/liteDb"),
+};
+const config = require("../config.json");
+const sequelize = dbs[config.databaseEngine];
 const Sequelize = require("sequelize");
 const Task = sequelize.define(
   "tasks",
