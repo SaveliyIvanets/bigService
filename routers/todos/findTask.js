@@ -28,12 +28,6 @@ async function findTaskById(req, res, next) {
   try {
     const error = new Error();
     const id = req.params.id;
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      error.name = "FindError";
-      error.message = "Invalid task ID";
-      error.status = 400;
-      return next(error);
-    }
     const task = await repository.findById(id);
     res.json(task);
   } catch (err) {

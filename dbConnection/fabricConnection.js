@@ -15,6 +15,6 @@ async function fabricConnection(databaseEngine) {
     throw new Error(`Unsupported DB: ${databaseEngine}`);
   }
   await connect;
-  console.log("DB is running");
+  console.log(`DB ${databaseEngine} is running`);
 }
 module.exports = fabricConnection;

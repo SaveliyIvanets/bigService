@@ -16,7 +16,7 @@ class postgresRepository extends repository {
     return record;
   }
   async create(record) {
-    await record.create();
+    await this.model.create(record);
   }
   async delete(id) {
     const error = new Error();

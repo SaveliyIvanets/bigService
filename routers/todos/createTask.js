@@ -12,13 +12,13 @@ async function createTask(req, res, next) {
       error.status = 400;
       return next(error);
     }
-    const task = new Task({
+    const task = {
       _id: config.tests ? req.body._id : undefined,
       title: req.body.title,
       description: req.body.description,
       completed: req.body.completed || false,
       createdAt: Date.now(),
-    });
+    };
     await repository.create(task);
     res.send("Save complete!");
   } catch (error) {

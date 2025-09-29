@@ -23,7 +23,8 @@ class mongoRepository extends repository {
     return record;
   }
   async create(record) {
-    await record.save();
+    const newRecord = new this.model(record);
+    await newRecord.save();
   }
   async delete(id) {
     const error = new Error();
