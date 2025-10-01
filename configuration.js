@@ -1,7 +1,4 @@
 const fs = require("fs");
-const mongoose = require("mongoose");
-const Sequelize = require("sequelize");
-const config = require("./config.json");
 
 function configuration() {
   try {
@@ -10,7 +7,9 @@ function configuration() {
       config.port !== undefined &&
       config.tests !== undefined &&
       config.databaseEngine !== undefined &&
-      config.mongodb !== undefined
+      config.mongodb !== undefined &&
+      config.postgresql !== undefined &&
+      config.sqlite !== undefined
     ) {
       console.debug("config проверен!");
       return config;
@@ -18,13 +17,24 @@ function configuration() {
     const fullConfig = {
       port: config.port ?? 3333,
       tests: config.tests ?? true,
-      databaseEngine: config.databaseEngine ?? "mongodb",
+      databaseEngine: config.databaseEngine ?? "postgres",
       mongodb: config.mongodb ?? {
         uri: "mongodb://127.0.0.1:27017/tasks",
         test_uri: "mongodb://127.0.0.1:27017/tests",
       },
+      postgresql: {
+        dbname: "postgres",
+        username: "postgres",
+        password: "123",
+        dialect: "postgres",
+      },
+      sqlite: {
+        dialect: "sqlite",
+        storage: "sqlite.db",
+      },
     };
     fs.writeFileSync("./config.json", JSON.stringify(fullConfig, null, 2));
+    delete require.cache[require.resolve("./config.json")];
     console.debug("config готов к работе");
     return fullConfig;
   } catch (err) {
@@ -32,34 +42,26 @@ function configuration() {
     const dataConfig = {
       port: 3002,
       tests: true,
-      databaseEngine: "mongodb",
+      databaseEngine: "postgres",
       mongodb: {
         uri: "mongodb://127.0.0.1:27017/tasks",
         test_uri: "mongodb://127.0.0.1:27017/tests",
       },
+      postgresql: {
+        dbname: "postgres",
+        username: "postgres",
+        password: "123",
+        dialect: "postgres",
+      },
+      sqlite: {
+        dialect: "sqlite",
+        storage: "sqlite.db",
+      },
     };
     fs.writeFileSync("./config.json", JSON.stringify(dataConfig, null, 2)); // я использую синхронный вариант, потому что мне кажется, что создание конфига при инициализации это первостепенная задача
+    delete require.cache[require.resolve("./config.json")];
     console.debug("config создан!");
     return dataConfig;
-  }
-}
-async function dbConnection(databaseEngine) {
-  switch (databaseEngine) {
-    case "mongo":
-      await mongoose.connect(config.mongodb.uri);
-      break;
-    case "postgres":
-      const Sequelize = require("sequelize");
-      const sequelize = new Sequelize(
-        config.postgresql.dbname,
-        config.postgresql.username,
-        config.postgresql.password,
-        {
-          dialect: config.postgresql.dialect,
-        }
-      );
-      await sequelize.authenticate();
-      break;
   }
 }
 module.exports = configuration;
