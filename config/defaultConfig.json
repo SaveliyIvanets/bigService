@@ -1,0 +1,17 @@
+{
+  "port": 3333,
+  "tests": false,
+  "db": {
+    "databaseEngine": "lite",
+  "postgresql": {
+    "dbname": "postgres",
+    "username": "postgres",
+    "password": "123",
+    "dialect": "postgres"
+  },
+  "sqlite": {
+    "dialect": "sqlite",
+    "storage": "sqlite.db"
+  }
+  }
+}

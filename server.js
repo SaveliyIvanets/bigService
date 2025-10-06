@@ -1,10 +1,9 @@
-const configuration = require("./configuration.js");
-const config = configuration();
+const config = require("./config/configuration.js");
 const app = require("./app");
 const fabricConnection = require("./dbConnection/fabricConnection.js");
 async function startServer() {
   try {
-    await fabricConnection(config.databaseEngine);
+    await fabricConnection(config.db.databaseEngine);
     app.listen(config.port);
     console.log(`Сервер запущен на ${config.port} порту`);
   } catch (err) {

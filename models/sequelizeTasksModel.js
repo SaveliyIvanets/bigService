@@ -2,9 +2,9 @@ const dbs = {
   postgres: require("../dbConnection/postgresDb"),
   lite: require("../dbConnection/liteDb"),
 };
-const config = require("../config.json");
+const config = require("../config/configuration");
 const sequelize =
-  dbs[config.databaseEngine] || require("../dbConnection/postgresDb");
+  dbs[config.db.databaseEngine] || require("../dbConnection/postgresDb");
 const Sequelize = require("sequelize");
 const Task = sequelize.define(
   "tasks",

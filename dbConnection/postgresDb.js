@@ -1,11 +1,11 @@
 const Sequelize = require("sequelize");
-const config = require("../config.json");
+const config = require("../config/configuration");
 
 module.exports = new Sequelize(
-  config.postgresql.dbname,
-  config.postgresql.username,
-  config.postgresql.password,
+  config.db.postgresql.dbname,
+  config.db.postgresql.username,
+  config.db.postgresql.password,
   {
-    dialect: config.postgresql.dialect,
+    dialect: config.db.postgresql.dialect,
   }
 );

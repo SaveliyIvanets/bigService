@@ -1,8 +1,11 @@
-const config = require("../../config.json");
+const config = require("../../config/configuration");
 const fabricModel = require("../../models/fabricModel");
-const Task = fabricModel(config.databaseEngine);
+const Task = fabricModel(config.db.databaseEngine);
 const fabricRepository = require("../../repository/fabricRepository");
-const repository = fabricRepository.giveRepository(config.databaseEngine, Task);
+const repository = fabricRepository.giveRepository(
+  config.db.databaseEngine,
+  Task
+);
 
 async function deleteTask(req, res, next) {
   try {

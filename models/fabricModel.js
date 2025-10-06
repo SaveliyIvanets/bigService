@@ -1,5 +1,4 @@
 const models = {
-  mongo: require("./mongoTasksModel"),
   postgres: require("./sequelizeTasksModel"),
   lite: require("./sequelizeTasksModel"),
 };
