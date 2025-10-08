@@ -1,13 +1,13 @@
-const config = require("./config/configuration.js");
-const app = require("./app");
-const fabricConnection = require("./dbConnection/fabricConnection.js");
+const config = require('./config/')
+const app = require('./app')
+const initDb = require('./database').initDb
 async function startServer() {
   try {
-    await fabricConnection(config.db.databaseEngine);
-    app.listen(config.port);
-    console.log(`Сервер запущен на ${config.port} порту`);
+    await initDb()
+    app.listen(config.port)
+    console.log(`Сервер запущен на ${config.port} порту`)
   } catch (err) {
-    console.debug(err);
+    console.debug(err)
   }
 }
-startServer();
+startServer()

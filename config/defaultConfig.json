@@ -2,16 +2,11 @@
   "port": 3333,
   "tests": false,
   "db": {
-    "databaseEngine": "lite",
-  "postgresql": {
-    "dbname": "postgres",
+    "databaseEngine": "sqlite",
+    "host": "127.0.0.1",
+    "port": "5432",
+    "database": "projectx",
     "username": "postgres",
-    "password": "123",
-    "dialect": "postgres"
-  },
-  "sqlite": {
-    "dialect": "sqlite",
-    "storage": "sqlite.db"
-  }
+    "password": "postgres"
   }
 }

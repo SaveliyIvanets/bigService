@@ -1,15 +1,12 @@
-const express = require("express");
-const router = express.Router();
-const createTask = require("./createTask");
-const { updateTask } = require("./updateTask");
-const deleteTask = require("./deleteTask");
-const { findAllTasks, findTaskById } = require("./findTask");
-const errorCatcher = require("../../middleware/todosErrorMiddleware");
-router.post("/", createTask);
-router.put("/:id", updateTask);
-router.patch("/:id", updateTask);
-router.delete("/:id", deleteTask);
-router.get("/", findAllTasks);
-router.get("/:id", findTaskById);
-router.use(errorCatcher);
-module.exports = router;
+const express = require('express')
+const router = express.Router()
+const errorCatcher = require('../../middleware/errorMiddleware')
+const asyncHandler = require('../../libraries/asyncHandler')
+router.post('/', asyncHandler(require('./create')))
+router.put('/:id', asyncHandler(require('./update')))
+router.patch('/:id', asyncHandler(require('./update')))
+router.delete('/:id', asyncHandler(require('./delete')))
+router.get('/', asyncHandler(require('./tasks')))
+router.get('/:id', asyncHandler(require('./show')))
+router.use(errorCatcher)
+module.exports = router
