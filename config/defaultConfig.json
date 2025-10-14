@@ -1,6 +1,7 @@
 {
   "port": 3333,
   "tests": false,
+  "JWT_SECRET": "daADdjnjKB13bjh1mv3vmb21vBVN3vb12vbm21vbnv4nb",
   "db": {
     "databaseEngine": "sqlite",
     "host": "127.0.0.1",

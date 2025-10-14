@@ -1,9 +1,7 @@
 const { Model, DataTypes } = require('sequelize')
 const sequelize = require('../sequelize')
-
-class Task extends Model {}
-
-Task.init(
+class User extends Model {}
+User.init(
   {
     id: {
       type: DataTypes.UUID,
@@ -11,27 +9,29 @@ Task.init(
       allowNull: false,
       defaultValue: DataTypes.UUIDV4,
     },
-    title: {
+    username: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
-    description: {
+    passwordHash: {
       type: DataTypes.STRING,
-    },
-    completed: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
+      allowNull: false,
     },
   },
   {
     sequelize,
-    modelName: 'task',
+    modelName: 'user',
   }
 )
-Task.associate = (models) => {
-  Task.belongsTo(models.User, {
+User.associate = (models) => {
+  User.belongsTo(models.Role, {
+    foreignKey: 'roleId',
+  })
+
+  User.hasMany(models.Task, {
     foreignKey: 'userId',
+    onDelete: 'CASCADE',
   })
 }
-
-module.exports = Task
+module.exports = User

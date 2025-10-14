@@ -16,6 +16,7 @@ async function createTask(req, res, next) {
     description: req.body.description,
     completed: req.body.completed || false,
     createdAt: Date.now(),
+    userId: req.user.id,
   }
   await repository.create(task)
   res.send('Save complete!')

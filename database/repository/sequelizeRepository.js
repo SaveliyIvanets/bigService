@@ -2,9 +2,9 @@ class sequelizeRepository {
   constructor(model) {
     this.model = model
   }
-  async findById(id) {
+  async findById(id, options = {}) {
     const error = new Error()
-    const record = await this.model.findByPk(id)
+    const record = await this.model.findByPk(id, options)
     if (!record) {
       error.name = 'NotFoundError'
       error.message = 'Record not found'
@@ -14,7 +14,7 @@ class sequelizeRepository {
     return record
   }
   async create(record) {
-    await this.model.create(record)
+    return await this.model.create(record)
   }
   async delete(id) {
     const error = new Error()
