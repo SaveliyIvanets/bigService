@@ -12,7 +12,7 @@ module.exports = (req, res, next) => {
   error.name = 'Unauthorized'
   error.message = 'the token is missing'
   error.status = 401
-  if (!authHeader) {
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return next(error)
   }
   const token = authHeader.split(' ')[1]
@@ -21,13 +21,19 @@ module.exports = (req, res, next) => {
       error.message = 'the token is invalid'
       return next(error)
     }
-    const user = await userRepository.findById(payload.id)
+    let user = null
+    try {
+      user = await userRepository.findById(payload.id)
+    } catch (e) {
+      return next(e)
+    }
     try {
       const role = await roleRepository.findById(user.roleId)
       user.role = role.role
-    } catch (e) {}
-
-    req.user = user
+    } catch (e) {
+      console.error('Role not found for user:', user.id, e.message)
+    }
+    req.user = user || payload
     next()
   })
 }

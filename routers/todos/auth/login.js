@@ -6,12 +6,22 @@ const repository = new repositoryClass(User)
 const SECRET = require('../../../config').JWT_SECRET
 
 async function login(req, res, next) {
-  const users = await repository.findAll()
+  const username = req.body.username
+  const password = req.body.password
   const error = new Error()
+  error.name = 'authError'
+  error.message = 'Not authorized'
+  error.status = 401
+  if (!username || !password) {
+    error.message = 'the data is incorrect'
+    error.status = 400
+    return next(error)
+  }
+  const users = await repository.findAll()
   for (const user of users) {
     if (
-      user.username === req.body.username &&
-      bcrypt.compare(user.passwordHash, req.body.password)
+      user.username === username &&
+      (await bcrypt.compare(password, user.passwordHash))
     ) {
       return res.status(200).json({
         id: user.id,
@@ -20,11 +30,11 @@ async function login(req, res, next) {
           expiresIn: '1h',
         }),
       })
+    } else if (user.username === username) {
+      error.message = 'Invalid username or password'
+      break
     }
   }
-  error.name = 'authError'
-  error.message = 'Not authorized'
-  error.code = 404
   return next(error)
 }
 module.exports = login

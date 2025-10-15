@@ -7,16 +7,18 @@ const SECRET = require('../../../config').JWT_SECRET
 
 async function register(req, res, next) {
   const error = new Error()
-  if (req.body.username === undefined || req.body.password === undefined) {
+  const username = req.body.username
+  const password = req.body.password
+  if (!username || !password) {
     error.name = 'registrationError'
     error.message =
       'the data is incorrect : the password and username must be specified'
     error.status = 400
     return next(error)
   }
-  const passwordHash = await bcrypt.hash(req.body.password, 10)
+  const passwordHash = await bcrypt.hash(password, 10)
   const user = await repository.create({
-    username: req.body.username,
+    username: username,
     passwordHash,
   })
   const token = jwt.sign({ id: user.id, username: user.username }, SECRET, {

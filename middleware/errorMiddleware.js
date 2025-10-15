@@ -26,7 +26,11 @@ function errorCatcher(err, req, res, next) {
       error.status = 415
       error.message = 'Unsupported Media Type'
     }
-  } else if (err.name === 'ValidationError' || err.name === 'CastError') {
+  } else if (
+    err.name === 'ValidationError' ||
+    err.name === 'CastError' ||
+    err.message === 'Validation error'
+  ) {
     error.status = 400
   }
   res.json(error)

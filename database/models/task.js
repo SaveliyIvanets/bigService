@@ -31,6 +31,7 @@ Task.init(
 Task.associate = (models) => {
   Task.belongsTo(models.User, {
     foreignKey: 'userId',
+    onDelete: 'CASCADE',
   })
 }
 
