@@ -21,19 +21,15 @@ const initDb = async () => {
     const userRepository = new repository(models.User)
     const roleRepository = new repository(models.Role)
 
-    const users = await userRepository.findAll()
-    const roles = await roleRepository.findAll()
-
     let adminRole = null
     let userRole = null
     let admin = null
-
-    for (const role of roles) {
-      if (role.role === 'admin') {
-        adminRole = role
-      } else if (role.role === 'user') {
-        userRole = role
-      }
+    try {
+      adminRole = await roleRepository.findOne({ role: 'admin' })
+      userRole = await roleRepository.findOne({ role: 'user' })
+      admin = await userRepository.findOne({ username: 'admin' })
+    } catch (e) {
+      console.error(e)
     }
 
     if (!adminRole) {
@@ -43,12 +39,7 @@ const initDb = async () => {
     if (!userRole) {
       userRole = await roleRepository.create({ role: 'user' })
     }
-    for (const user of users) {
-      if (user.username === 'admin') {
-        admin = user
-        break
-      }
-    }
+
     if (!admin) {
       const adminHashPassword = await bcrypt.hash('admin', 10)
       admin = {

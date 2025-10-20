@@ -1,5 +1,5 @@
-const Task = require('../database').models.Task
-const repositoryClass = require('../database').repository
+const { Task } = require('../database').models
+const { repository: repositoryClass } = require('../database')
 const taskRepository = new repositoryClass(Task)
 module.exports = async (req, res, next) => {
   const error = new Error()

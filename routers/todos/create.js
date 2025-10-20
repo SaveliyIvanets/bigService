@@ -1,6 +1,6 @@
 const config = require('../../config')
-const Task = require('../../database').models.Task
-const repositoryClass = require('../../database').repository
+const { Task } = require('../../database').models
+const { repository: repositoryClass } = require('../../database')
 const repository = new repositoryClass(Task)
 async function createTask(req, res, next) {
   const error = new Error()
@@ -15,7 +15,6 @@ async function createTask(req, res, next) {
     title: req.body.title,
     description: req.body.description,
     completed: req.body.completed || false,
-    createdAt: Date.now(),
     userId: req.user.id,
   }
   await repository.create(task)

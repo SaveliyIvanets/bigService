@@ -2,6 +2,17 @@ class sequelizeRepository {
   constructor(model) {
     this.model = model
   }
+  async findOne(filtr) {
+    const error = new Error()
+    const record = await this.model.findOne({ where: filtr })
+    if (!record) {
+      error.name = 'NotFoundError'
+      error.message = 'Record not found'
+      error.status = 404
+      throw error
+    }
+    return record
+  }
   async findById(id, options = {}) {
     const error = new Error()
     const record = await this.model.findByPk(id, options)

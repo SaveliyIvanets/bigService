@@ -17,5 +17,26 @@
     "jest": "^30.1.3",
     "mocha": "^11.7.2",
     "supertest": "^7.1.4"
-  }
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "bigservice",
+  "version": "1.0.0",
+  "main": "app.js",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SaveliyIvanets/bigService.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SaveliyIvanets/bigService/issues"
+  },
+  "homepage": "https://github.com/SaveliyIvanets/bigService#readme",
+  "description": ""
 }

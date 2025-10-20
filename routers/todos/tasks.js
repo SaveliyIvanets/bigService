@@ -1,5 +1,5 @@
-const Task = require('../../database').models.Task
-const repositoryClass = require('../../database').repository
+const { Task } = require('../../database').models
+const { repository: repositoryClass } = require('../../database')
 const repository = new repositoryClass(Task)
 
 async function findAllTasks(req, res, next) {

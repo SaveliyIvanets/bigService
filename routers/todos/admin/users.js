@@ -1,5 +1,5 @@
-const User = require('../../../database').models.User
-const repositoryClass = require('../../../database').repository
+const { User } = require('../../../database').models
+const { repository: repositoryClass } = require('../../../database')
 const userRepository = new repositoryClass(User)
 
 async function showUsers(req, res, next) {

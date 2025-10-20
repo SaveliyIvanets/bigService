@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
-const User = require('../../../database').models.User
-const repositoryClass = require('../../../database').repository
+const { User } = require('../../../database').models
+const { repository: repositoryClass } = require('../../../database')
 const repository = new repositoryClass(User)
 const SECRET = require('../../../config').JWT_SECRET
 
@@ -17,23 +17,22 @@ async function login(req, res, next) {
     error.status = 400
     return next(error)
   }
-  const users = await repository.findAll()
-  for (const user of users) {
-    if (
-      user.username === username &&
-      (await bcrypt.compare(password, user.passwordHash))
-    ) {
-      return res.status(200).json({
-        id: user.id,
-        username: user.username,
-        token: jwt.sign({ id: user.id, username: user.username }, SECRET, {
-          expiresIn: '1h',
-        }),
-      })
-    } else if (user.username === username) {
-      error.message = 'Invalid username or password'
-      break
-    }
+  let user = null
+  try {
+    user = await repository.findOne({ username: username })
+  } catch {
+    error.message = 'Invalid username or password'
+  }
+  if (user !== null && (await bcrypt.compare(password, user.passwordHash))) {
+    return res.status(200).json({
+      id: user.id,
+      username: user.username,
+      token: jwt.sign({ id: user.id, username: user.username }, SECRET, {
+        expiresIn: '1h',
+      }),
+    })
+  } else {
+    error.message = 'Invalid username or password'
   }
   return next(error)
 }

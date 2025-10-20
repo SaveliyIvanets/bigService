@@ -1,5 +1,5 @@
-const Task = require('../../database').models.Task
-const repositoryClass = require('../../database').repository
+const { Task } = require('../../database').models
+const { repository: repositoryClass } = require('../../database')
 const repository = new repositoryClass(Task)
 
 async function updateTask(req, res, next) {
@@ -15,7 +15,6 @@ async function updateTask(req, res, next) {
     title: req.body.title,
     description: req.body.description,
     completed: req.body.completed,
-    createdAt: req.body.createdAt,
   }
 
   await repository.update(id, updateData)

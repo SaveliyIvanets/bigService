@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
-const User = require('../../../database').models.User
-const repositoryClass = require('../../../database').repository
+const { User } = require('../../../database').models
+const { repository: repositoryClass } = require('../../../database')
 const repository = new repositoryClass(User)
 const SECRET = require('../../../config').JWT_SECRET
 
