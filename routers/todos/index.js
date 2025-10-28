@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const asyncHandler = require('../../libraries/asyncHandler')
+const { requestLogger } = require('../../middleware/logMiddleware')
+router.use(requestLogger)
 router.post('/reg', asyncHandler(require('./auth/register')))
 router.post('/auth', asyncHandler(require('./auth/login')))
 router.use(require('../../middleware/authMiddleware'))

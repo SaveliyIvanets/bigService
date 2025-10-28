@@ -17,7 +17,7 @@ class UserValidateTransform extends Transform {
   }
 
   _transform(chunk, encoding, callback) {
-    let data = this.remainingData + chunk.toString()
+    const data = `${this.remainingData}${chunk.toString()}`
 
     const lines = data.split('\n')
     this.remainingData = lines.pop()
@@ -35,34 +35,27 @@ class UserValidateTransform extends Transform {
         email: parseUser[3]?.trim(),
       }
 
-      if (
-        userObj.id === undefined ||
-        userObj.first_name === undefined ||
-        userObj.last_name === undefined ||
-        userObj.email === undefined
-      ) {
-        continue
-      }
-
       if (userObj.id === 'id') {
         validateUserArray.push(jsonToString(userObj))
+        this.total--
         continue
       }
 
       userObj.first_name = userObj.first_name.toUpperCase()
       userObj.last_name = userObj.last_name.toUpperCase()
 
-      if (
+      const emailValidate =
         !userObj.email.includes('@') ||
         !['com', 'ru', 'net'].includes(userObj.email.split('.').pop())
-      ) {
+
+      if (emailValidate) {
         this.invalid++
         continue
       }
       validateUserArray.push(jsonToString(userObj))
     }
 
-    callback(null, validateUserArray.join('\r\n') + '\n')
+    callback(null, `${validateUserArray.join('\r\n')}\n`)
   }
   _flush(callback) {
     console.log(`Обработка завершена`)

@@ -30,3 +30,6 @@ readStream
     console.log(`Всего строк: ${total}`)
     console.log(`Пропущено (некорректных email): ${invalid}`)
   })
+  .on('error', (error) => {
+    console.error('Произошла ошибка:', error)
+  })
